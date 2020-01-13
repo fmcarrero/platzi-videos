@@ -1,0 +1,27 @@
+version: '3.1'
+
+services:
+  core:
+    build: .
+    depends_on:
+      - mongodb
+    expose:
+      - 3000
+    ports:
+      - 3000:3000/tcp
+    env_file:
+      - .env
+    links:
+      - mongodb
+    environment:
+      NODE_ENV: 'production'
+      DB_HOST: 'mongodb'
+  mongodb:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongoadmin
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+      - MONGO_INITDB_DATABASE=platzivideos_db
+
+    ports:
+      - '27017:27017'
